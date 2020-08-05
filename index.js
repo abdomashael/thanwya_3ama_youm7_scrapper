@@ -5,7 +5,8 @@ const fs = require("fs")
 
 
 const getResults = async (start, end) => {
-  let data = "المدرسة,الحالة,رقم الجلوس,المجموع,النسبة,الشعبة,اﻷسم";  
+  let data = "رقم الجلوس,المجموع,النسبة,الشعبة,اﻷسم";  
+  // المدرسة,الحالة,
   data+="\n";
   while (start <= end) {
 
@@ -29,13 +30,13 @@ const getResults = async (start, end) => {
     const $ = cheerio.load(response.data);
         const urlElems = $(".nav-item");
 
-        const schoolSpan = $(urlElems[4]).find("span")[1];
-        const school = $(schoolSpan).text();
-        data=data+school+",";
+        // const schoolSpan = $(urlElems[4]).find("span")[1];
+        // const school = $(schoolSpan).text();
+        // data=data+school+",";
 
-        const resSpan = $(urlElems[7]).find("span")[1];
-        const res = $(resSpan).text();
-        data=data+res+",";
+        // const resSpan = $(urlElems[7]).find("span")[1];
+        // const res = $(resSpan).text();
+        // data=data+res+",";
 
         
         // We now loop through all the elements found
@@ -66,7 +67,7 @@ const getResults = async (start, end) => {
     console.log("error");      
     // data=data+"error,error,error,error,\n";
   }
-  await sleep(200);
+  // await sleep(200);
   start++;
 
 }
