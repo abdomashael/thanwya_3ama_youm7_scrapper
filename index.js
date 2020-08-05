@@ -56,7 +56,7 @@ const getResults = async (start, end) => {
         const urlSpan = $(urlElems[3]).find("span")[1];
         const name = $(urlSpan).text();
 
-        data=data+name+",";
+        data=data+name;
         
         data+="\n";
 
@@ -64,7 +64,7 @@ const getResults = async (start, end) => {
   
   } catch (error) {
     console.log("error");      
-    data=data+"error,error,error,error,\n";
+    // data=data+"error,error,error,error,\n";
   }
   await sleep(200);
   start++;
