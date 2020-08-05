@@ -5,9 +5,8 @@ const fs = require("fs");
 
 const getResults = async (start, end) => {
   let err = "";
-  let data = "المدرسة,رقم الجلوس,المجموع,النسبة,الشعبة,اﻷسم";
-  // الحالة,
-  data += "\n";
+  let data = "";
+  // الحالة,  
   while (start <= end) {
     let body = qs.stringify({
       seating_no: start,
@@ -64,7 +63,7 @@ const getResults = async (start, end) => {
       // data=data+"error,error,error,error,\n";
     }
     // await sleep(200);
-    start++;
+    start+=2;
   }
 
   return { data: data, err: err };
@@ -94,8 +93,10 @@ if (isNaN(start) || isNaN(end)) {
 
     //250240, 252426
     let resultsAll = await getResults(start, end);
+    resultsAll += await getResults(start+1, end);
 
-    fs.writeFileSync("results.csv", resultsAll.data);
+    
+    fs.writeFileSync("results.csv","المدرسة,رقم الجلوس,المجموع,النسبة,الشعبة,اﻷسم"+"\n"+resultsAll.data);
     fs.writeFileSync("error.csv", resultsAll.err);
 
     console.log("\n\n Results file created.");
