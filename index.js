@@ -66,7 +66,7 @@ const getResults = async (start, end) => {
     console.log("error");      
     data=data+"error,error,error,error,\n";
   }
-  await sleep(150);
+  await sleep(200);
   start++;
 
 }
