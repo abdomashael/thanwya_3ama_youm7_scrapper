@@ -2,10 +2,10 @@
 I create this script to extract my old school current year degrees for all students in CSV file.
 
 ## Note:
-- You should install nodejs on your device to use it.
-- Insatll from here: https://nodejs.org/en/
+- You should install nodejs and npm on your device to use it.
+- install from here: https://nodejs.org/en/
 
 ## How use it?
-- node install.
-- node index.js [first seating number] [last seating number].
-- check created file with name "results.csv"
+1. npm install.
+2. node index.js [first seating number] [last seating number].
+3. check created file with name "results.csv" and "error.csv
