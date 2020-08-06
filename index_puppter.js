@@ -101,7 +101,7 @@ if (isNaN(start) || isNaN(end)) {
     // fs.writeFileSync('results.csv', results);
 
     //250240, 252426
-    let resultsAll = await getResults(250250, 250260);
+    let resultsAll = await getResults(start,end);
 
     fs.writeFileSync("results.csv", resultsAll.data);
     //   fs.writeFileSync("error.csv", resultsAll.err);
