@@ -14,6 +14,7 @@ let getResults = async function (start, end) {
   let data = "المدرسة,رقم الجلوس,المجموع,النسبة,الشعبة,اﻷسم";
   // الحالة,
   data += "\n";
+  let err= "";
 
   while (start <= end) {
     const page = await browser.newPage();
@@ -25,7 +26,7 @@ let getResults = async function (start, end) {
     await page.goto("https://natega.youm7.com/");
 
     // Login form
-    await page.screenshot({ path: __dirname + "/output/1.png" });
+    // await page.screenshot({ path: __dirname + "/output/1.png" });
 
     // await page.type('input[name=search]', 'Adenosine triphosphate');
     await page.$eval("#seating_no", (el, start) => (el.value = start), start);
@@ -35,7 +36,7 @@ let getResults = async function (start, end) {
     // await sleep(2000)
     await page.waitForSelector(".all");
 
-    await page.screenshot({ path: __dirname + "/output/2.png" });
+    // await page.screenshot({ path: __dirname + "/output/2.png" });
 
     const aHandle = await page.evaluateHandle(() => document.body);
     const resultHandle = await page.evaluateHandle(
@@ -47,41 +48,47 @@ let getResults = async function (start, end) {
 
     const schoolSpan = $(urlElems[4]).find("span")[1];
     const school = $(schoolSpan).text();
-    data = data + school + ",";
+    if (school !== "") {
+      data = data + school + ",";
 
-    // const resSpan = $(urlElems[7]).find("span")[1];
-    // const res = $(resSpan).text();
-    // data=data+res+",";
+      // const resSpan = $(urlElems[7]).find("span")[1];
+      // const res = $(resSpan).text();
+      // data=data+res+",";
 
-    // We now loop through all the elements found
-    for (let i = 0; i < 3; i++) {
-      const urlSpan = $(urlElems[i]).find("h1")[0];
-      const urlText = $(urlSpan).text();
-      data = data + urlText + ",";
+      // We now loop through all the elements found
+      for (let i = 0; i < 3; i++) {
+        const urlSpan = $(urlElems[i]).find("h1")[0];
+        const urlText = $(urlSpan).text();
+        data = data + urlText + ",";
 
-      // We then print the text on to the console
-      // console.log(urlText);
+        // We then print the text on to the console
+        // console.log(urlText);
+      }
+
+      const t = $(urlElems[9]).find("span")[1];
+      const t2 = $(t).text();
+
+      data = data + t2 + ",";
+
+      const urlSpan = $(urlElems[3]).find("span")[1];
+      const name = $(urlSpan).text();
+
+      data = data + name;
+
+      data += "\n";
+    } else {
+      err += start + ",\n";
+      console.log("err");
     }
 
-    const t = $(urlElems[9]).find("span")[1];
-    const t2 = $(t).text();
-
-    data = data + t2 + ",";
-
-    const urlSpan = $(urlElems[3]).find("span")[1];
-    const name = $(urlSpan).text();
-
-    data = data + name;
-
-    data += "\n";
-
     page.close();
+
     console.log(start);
     start++;
   }
   await browser.close();
 
-  return { data: data };
+  return { data: data,err:err };
 };
 
 var myArgs = process.argv.slice(2);
@@ -101,10 +108,10 @@ if (isNaN(start) || isNaN(end)) {
     // fs.writeFileSync('results.csv', results);
 
     //250240, 252426
-    let resultsAll = await getResults(start,end);
+    let resultsAll = await getResults(start, end);
 
     fs.writeFileSync("results.csv", resultsAll.data);
-    //   fs.writeFileSync("error.csv", resultsAll.err);
+    fs.writeFileSync("error.csv", resultsAll.err);
 
     console.log("\n\n Results file created.");
   })();
