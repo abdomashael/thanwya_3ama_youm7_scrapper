@@ -1,6 +1,6 @@
-results.csv
+# results.csv
 resultsAll.csv
-error.csv
+# error.csv
 package-lock.json
 
 node_modules/
